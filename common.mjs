@@ -37,8 +37,13 @@ class Signature {
 	this.origin = origin;
 	const dataDec = dataHex ? BigInt('0x' + dataHex).toString(10) : '';
 	this.data = [];
-	for (let i = 0; i < dataDec.length; i += Signature.maxURLLength)
-	    this.data.push(dataDec.slice(i, i + Signature.maxURLLength));
+
+	if (dataDec.length > 0){
+		var chunk_len = Math.ceil(dataDec.length / this.chunks())
+		for (let i = 0; i < this.chunks(); i ++){
+			this.data.push(dataDec.slice(i * chunk_len, (i + 1) * chunk_len));
+		}
+	}
     }
 
     get meta() {
