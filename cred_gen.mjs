@@ -6,9 +6,9 @@ function setQR(node, uri, spinner, active, error, altText='') {
     node.querySelector('img').src = uri;
     node.querySelector('img').alt = altText;
 }
-waitQR = (node) => setQR(node, '', 1, 1, 0);
-placeQR = (node, uri) => setQR(node, uri, 0, 1, 0);
-errQR = (node) => setQR(node, '', 0, 1, 1, 'Error');
+const waitQR = (node) => setQR(node, '', 1, 1, 0);
+const placeQR = (node, uri) => setQR(node, uri, 0, 1, 0);
+const errQR = (node) => setQR(node, '', 0, 1, 1, 'Error');
 
 // API sign call
 async function handleSignature(node, msg) {
