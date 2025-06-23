@@ -7,8 +7,9 @@ class Signature {
     static UOV = 3;
     static FAEST = 4;
     static maxURLLength = 5500;
-    static baseURLqr = 'HTTPS://PAGES.GITHUB.IBM.COM/QSC/SIGN';
-    static baseURLvault = 'HTTPS://VAULT.EXAMPLE.COM/';
+    static baseURLqr = 'http://localhost:3000/';
+    //static baseURLqr = 'HTTPS://PAGES.GITHUB.IBM.COM/QSC/SIGN';
+    //static baseURLvault = 'HTTPS://VAULT.EXAMPLE.COM/';
     static algorithmMeta = new Map([
 	[Signature.SQISIGN , {
 	    id : 'sqisign',

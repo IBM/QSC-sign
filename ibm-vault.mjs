@@ -1,6 +1,7 @@
 import { Signature } from "./common.mjs"
 
 const welcomeContainer = document.getElementById('welcome-container');
+const incompleteSignatureContainer = document.getElementById('incomplete-signature-container');
 const scannerContainer = document.getElementById('scanner-container');
 const resultContainer = document.getElementById('result-container');
 const haveCredentialBtn = document.getElementById('have-credential-btn');
@@ -13,34 +14,53 @@ const ibmLogo = document.getElementById('ibm-logo');
 const vaultImg = document.getElementById('vault-img');
 const vaultResultImg = document.getElementById('vault-result-img');
 
-// State to keep track of multi-qr signatures
-let sig = null;
+const storage = localStorage;
+
+const containers = [
+    welcomeContainer,
+    incompleteSignatureContainer,
+    scannerContainer,
+    resultContainer
+];
+
+function showContainer(container) {
+    containers.forEach(c => c.style.display = 'none');
+    container.style.display = '';
+}
+
 let qrReader = null;
 let codeReader = null;
 let videoInputDeviceId = null;
 
 haveCredentialBtn.onclick = () => {
-    welcomeContainer.style.display = 'none';
-    scannerContainer.style.display = 'block';
-    resultContainer.style.display = 'none';
+    showContainer(scannerContainer);
     startScanner();
 };
 
 function handleCredential(decodedText) {
-    // Handle split QR codes
-    if (sig)
-	sig.addDataFromURL(decodedText);
-    else
-	sig = Signature.fromURL(decodedText);
+    
+    let sig = Signature.fromURL(decodedText);
 
     if (sig.isComplete()) {
-	verifyCredential();
-    } else {
-	// Assuming at mots 2 QR codes per sig
-	const [have, want] = sig.data[0] ? ['First', 'second'] : ['Second', 'first'];
-        faestMessage.innerHTML = `<span style="color:#198038;">${have} part of ${sig.meta.name} credential scanned.<br>Now please scan the ${want} part.</span>`;
-        startScanner();
+        storage.removeItem('stored_URL'); 
+        verifyCredential(sig);
+        return;
     }
+
+    // try to combine with stored URL (assumes at most 2 chunks)
+    let stored_URL = storage.getItem('stored_URL') || null;
+    if ( stored_URL ){
+        sig.addDataFromURL(stored_URL);
+        if (sig.isComplete()) {
+            storage.removeItem('stored_URL'); 
+            verifyCredential(sig);
+            return;
+        }
+    }
+
+    // incomplete signature, store for later
+    storage.setItem('stored_URL', decodedText);
+	showContainer(incompleteSignatureContainer);
 }
 
 function startScanner() {
@@ -63,7 +83,7 @@ function startScanner() {
                 codeReader.reset();
                 video.style.display = 'none';
 		try {
-                    handleCredential(result.getText());
+            handleCredential(result.getText());
 		} catch (err) {
 		    console.log(err);
 		    throw err;
@@ -82,7 +102,8 @@ function stopScanner() {
     }
 }
 
-function verifyCredential(decodedText) {
+function verifyCredential(sig) {
+    showContainer(resultContainer);
     resultMessage.textContent = "Verifying credential...";
     stopScanner();
     scannerContainer.style.display = 'none';
@@ -139,3 +160,12 @@ manualInput.addEventListener('keydown', function(e) {
         manualSubmit.click();
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+   // Check for ?data=... in the URL
+  const URL = window.location.href;
+  if (URL.includes("?")) {
+    handleCredential(URL);
+  }
+}, false);
