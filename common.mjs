@@ -6,7 +6,7 @@ class Signature {
     static MAYO = 2;
     static UOV = 3;
     static FAEST = 4;
-    static maxURLLength = 5500;
+    static maxURLLength = 5400;
     static algorithmMeta = new Map([
 	[Signature.SQISIGN , {
 	    id : 'sqisign',
