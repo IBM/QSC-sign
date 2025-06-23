@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IBM Secure Quiz Answer Vault</title>
+    <!-- IBM Plex font -->
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #fff;
+            color: #161616;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .ibm-header {
+            background: #052F5F;
+            color: #fff;
+            padding: 2rem 0 1rem 0;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        .ibm-container {
+            max-width: 480px;
+            margin: 2rem auto;
+            background: #f4f4f4;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(5,47,95,0.08);
+            padding: 2rem 2rem 2.5rem 2rem;
+            text-align: center;
+        }
+        .ibm-btn {
+            background: #0f62fe;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            padding: 0.8rem 2.2rem;
+            margin-top: 2rem;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .ibm-btn:hover {
+            background: #0353e9;
+        }
+        .ibm-note {
+            color: #393939;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+        #scanner-container {
+            display: none;
+            margin-top: 2rem;
+        }
+        #qr-reader {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        #result-message {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .ibm-logo {
+            width: 120px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    <!-- Remove html5-qrcode -->
+    <!-- <script src="https://unpkg.com/html5-qrcode"></script> -->
+    <!-- Add zxing-js/library -->
+    <script type="module" src="common.mjs"></script>
+    <script src="https://unpkg.com/@zxing/library@0.20.0/umd/index.min.js"></script>
+    <script type="module" src="ibm-vault.mjs"></script>
+</head>
+<body>
+    <div class="ibm-header" id="ibm-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM Logo" class="ibm-logo" id="ibm-logo"><br>
+        IBM Secure Quiz <br> Answer Vault&#8482
+    </div>
+    <div class="ibm-container" id="welcome-container">
+        <img id="vault-img" src="vault_closed.jpg" alt="Vault Closed" style="width:360px; margin-bottom:1.2rem;">
+        <div style="font-size:1rem; margin-bottom:1.5rem;">
+            Welcome to the IBM Secure Quiz Answer Vault&#8482.<br>
+            To access the contents please present your credentials.<br>
+            To obtain your credential please visit the signing booth.
+        </div>
+        <button class="ibm-btn" id="have-credential-btn">I have my credential</button>
+    </div>
+
+    <div class="ibm-container" id="scanner-container">
+        <div style="font-size:1.2rem; margin-bottom:1rem;">
+            Please scan your credential QR code.
+        </div>
+        <video id="qr-video" style="width:100%;max-width:350px;"></video>
+        <div id="faest-message"></div>
+        <div id="manual-entry" style="margin: 1.5rem 0; display: none;">
+            <input type="text" id="manual-input" placeholder="Paste credential string here" style="width: 70%; padding: 0.5rem; font-size: 1rem; border-radius: 4px; border: 1px solid #bbb;">
+            <button class="ibm-btn" id="manual-submit" style="padding: 0.5rem 1.2rem; font-size: 1rem; margin-left: 0.5rem;">Submit</button>
+        </div>
+    </div>
+
+    <div class="ibm-container" id="result-container" style="display:none;">
+        <img id="vault-result-img" src="vault_closed.jpg" alt="Vault" style="width:360px; margin-bottom:1.2rem;">
+        <div id="result-message"></div>
+    </div>
+</body>
+</html>

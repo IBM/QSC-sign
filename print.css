@@ -1,0 +1,13 @@
+@page {
+    size: 62mm 62mm;
+    margin: 3mm;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+body, .qr, img {
+    width: 56mm;
+    height: 56mm;
+    display: flex;
+}

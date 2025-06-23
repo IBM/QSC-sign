@@ -1,0 +1,181 @@
+:root {
+    --background-color: #f4f4f4;
+    --ibm-blue: #0F62FE;
+    --dark-blue: #052F5F;
+    --pale-blue: #A6C8FF;
+}
+
+body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background: #fff;
+    max-width: 100%;
+    width: 100%;
+    margin: 3em auto;
+    padding: 2.5em 2em 2em 2em;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    text-align: center;
+    box-sizing: border-box;
+}
+.ibm-logo {
+    width: 120px;
+    margin-bottom: 1.5em;
+}
+h1 {
+    color: var(--dark-blue);
+    font-size: 2em;
+    margin-bottom: 1.2em;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+label {
+    font-weight: 700;
+    color: var(--dark-blue);
+    display: block;
+    margin-bottom: 0.5em;
+    text-align: left;
+}
+#message {
+    width: 100%;
+    padding: 0.7em;
+    border: 1px solid var(--pale-blue);
+    border-radius: 6px;
+    font-size: 1em;
+    margin-bottom: 1.2em;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+#message:focus {
+    border-color: var(--ibm-blue);
+    outline: none;
+}
+#signBtn {
+    background: linear-gradient(90deg, var(--ibm-blue) 60%, var(--dark-blue) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7em 2em;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgb(from var(--ibm-blue) r g b / 0.08);
+}
+#signBtn:hover {
+    background: linear-gradient(90deg, var(--dark-blue) 60%, var(--ibm-blue) 100%);
+}
+
+#qrcode {
+    margin-top: 2em;
+    min-height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.qr-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.qr-block {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.qr-title {
+    font-weight: 700;
+    color: var(--ibm-blue);
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+}
+.qr-row-faest {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+}
+.qr-block-faest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+}
+#qrcode-faest1, #qrcode-faest2 {
+    min-height: 0;
+    width: 100%;
+    max-width: 384px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.qr img {
+    visibility: hidden;
+}
+.qr.active img {
+    visibility: visible;
+    cursor: pointer;
+}
+.qr.active img:hover {
+    outline: solid thick var(--ibm-blue);
+}
+.qr.error {
+    color: red;
+}
+.spinner img {
+    border: 6px solid #e0e6f0;
+    border-top: 6px solid var(--ibm-blue);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    animation: spin 1s linear infinite;
+    margin: 32px auto;
+}
+#qrcode-faest .spinner img {
+    width: 96px;
+    height: 96px;
+    border-width: 12px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+.footer {
+    margin-top: 2em;
+    color: var(--pale-blue);
+    font-size: 0.95em;
+}
+@media (max-width: 900px) {
+    .container {
+        padding: 1em 0.2em;
+    }
+    .qr-row-faest {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+    .qr-block-faest {
+        width: 100%;
+    }
+    #qrcode-faest1, #qrcode-faest2 {
+        width: 90vw;
+        max-width: 384px;
+    }
+}
+
+#print-area { display: none }

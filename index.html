@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IBM NIST signatures</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="cred_gen.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img class="ibm-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM Logo">
+        <h1>IBM Secure Quiz Answer Vault Credential Generator</h1>
+        <form>
+            <label for="message">IBMer Name:</label>
+            <input type="text" id="message" placeholder="IBMer name here" autocomplete="off" required />
+            <button id="signBtn">Generate credential!</button>
+        </form>
+	<div id="qr-codes">
+          <div class="qr-row">
+            <div class="qr-block">
+              <div class="qr-title">SQIsign</div>
+              <div class="qr" id="qrcode-sqi" data-api="/api/sign/sqisign">
+		<img height="128" width="128">
+	      </div>
+            </div>
+            <div class="qr-block">
+              <div class="qr-title">MAYO</div>
+              <div class="qr" id="qrcode-mayo" data-api="/api/sign/mayo">
+		<img height="128" width="128">
+	      </div>
+            </div>
+            <div class="qr-block">
+              <div class="qr-title">UOV</div>
+              <div class="qr" id="qrcode-uov" data-api="/api/sign/uov">
+		<img height="128" width="128">
+	      </div>
+            </div>
+          </div>
+          <div class="qr-row-faest">
+            <div class="qr-block-faest">
+              <div class="qr-title">FAEST (part 1)</div>
+              <div class="qr qr-faest" id="qrcode-faest1" data-api="/api/sign/faest"
+		   data-output=".qr-faest">
+		<img height="384" width="384">
+	      </div>
+            </div>
+            <div class="qr-block-faest">
+              <div class="qr-title">FAEST (part 2)</div>
+              <div class="qr qr-faest" id="qrcode-faest2">
+		<img height="384" width="384">
+	      </div>
+            </div>
+          </div>
+          <div class="footer">Powered by IBM · NIST Signature Demo</div>
+	</div>
+    </div>
+    <iframe srcdoc="<link rel=&quot;stylesheet&quot; href=&quot;print.css&quot;>"
+	    id="print-area"></iframe>
+</body>
+</html>
