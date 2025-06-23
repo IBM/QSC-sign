@@ -114,11 +114,10 @@ function verifyCredential(sig) {
     stopScanner();
     scannerContainer.style.display = 'none';
 
-    fetch(backend + '/api/verify-credential', {
+    fetch(backend + '/api/verify/' + sig.meta.id, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-	    algorithm: sig.algorithm,
 	    signature: sig.hexData(),
 	})
     })
