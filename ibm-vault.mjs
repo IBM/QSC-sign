@@ -25,7 +25,8 @@ const containers = [
 
 function showContainer(container) {
     containers.forEach(c => c.style.display = 'none');
-    container.style.display = '';
+    container.style.display = 'block';
+    console.log("show:", container.id)
 }
 
 let qrReader = null;
@@ -33,7 +34,6 @@ let codeReader = null;
 let videoInputDeviceId = null;
 
 haveCredentialBtn.onclick = () => {
-    showContainer(scannerContainer);
     startScanner();
 };
 
@@ -52,7 +52,7 @@ function handleCredential(decodedText) {
     if ( stored_URL ){
         sig.addDataFromURL(stored_URL);
         if (sig.isComplete()) {
-            storage.removeItem('stored_URL'); 
+            
             verifyCredential(sig);
             return;
         }
@@ -92,6 +92,7 @@ function startScanner() {
             // ignore errors (err) for now
         });
     });
+    showContainer(scannerContainer);
 }
 
 // If you want to stop the scanner manually:
@@ -145,8 +146,6 @@ ibmLogo.onclick = () => {
     if (manualEntry.style.display === "none") {
         manualEntry.style.display = "";
         manualInput.focus();
-    } else {
-        manualEntry.style.display = "none";
     }
 };
 
