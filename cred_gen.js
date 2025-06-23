@@ -23,7 +23,7 @@ async function handleSignature(node, msg) {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg })
+            body: JSON.stringify({ message: msg , origin: window.location.origin })
         });
         const data = await response.json();
 	const urls = data.dataUrls.values();

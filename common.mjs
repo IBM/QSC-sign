@@ -7,9 +7,6 @@ class Signature {
     static UOV = 3;
     static FAEST = 4;
     static maxURLLength = 5500;
-    static baseURLqr = 'http://localhost:3000/';
-    //static baseURLqr = 'HTTPS://PAGES.GITHUB.IBM.COM/QSC/SIGN';
-    //static baseURLvault = 'HTTPS://VAULT.EXAMPLE.COM/';
     static algorithmMeta = new Map([
 	[Signature.SQISIGN , {
 	    id : 'sqisign',
@@ -33,10 +30,11 @@ class Signature {
 	}],
     ]);
     
-    constructor(algorithm, dataHex) {
+    constructor(algorithm, dataHex, origin) {
 	if (!Signature.algorithmMeta.has(algorithm))
 	    throw `Unkwnown algorithm ${algorithm}`;
 	this.algorithm = algorithm;
+	this.origin = origin;
 	const dataDec = dataHex ? BigInt('0x' + dataHex).toString(10) : '';
 	this.data = [];
 	for (let i = 0; i < dataDec.length; i += Signature.maxURLLength)
@@ -67,8 +65,7 @@ class Signature {
     *URLs() {
 	for (let [i, chunk] of this.data.entries()) {
 	    if (chunk !== undefined) {
-		yield Signature.baseURLqr
-		    + '?' + this.algorithm + i + chunk;
+		yield this.origin + '?' + this.algorithm + i + chunk;
 	    }
 	}
     }
