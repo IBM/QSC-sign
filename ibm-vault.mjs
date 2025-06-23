@@ -1,3 +1,4 @@
+import { backend } from "./config.mjs";
 import { Signature } from "./common.mjs"
 
 const welcomeContainer = document.getElementById('welcome-container');
@@ -113,7 +114,7 @@ function verifyCredential(sig) {
     stopScanner();
     scannerContainer.style.display = 'none';
 
-    fetch('/api/verify-credential', {
+    fetch(backend + '/api/verify-credential', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

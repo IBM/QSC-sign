@@ -1,3 +1,5 @@
+import { backend } from "./config.mjs";
+
 // UI functions
 function setQR(node, uri, spinner, active, error, altText='') {
     node.classList.toggle('spinner', spinner);
@@ -20,7 +22,7 @@ async function handleSignature(node, msg) {
     outputs.forEach((qr) => waitQR(qr));
     
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(backend + apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: msg , origin: window.location.origin })
