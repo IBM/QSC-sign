@@ -25,7 +25,8 @@ async function handleSignature(node, msg) {
         const response = await fetch(backend + apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg , origin: window.location.origin })
+            body: JSON.stringify({ message: msg ,
+				   origin: new URL('.', window.location) })
         });
         const data = await response.json();
 	const urls = data.dataUrls.values();
