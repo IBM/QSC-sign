@@ -13,6 +13,7 @@ const manualSubmit = document.getElementById('manual-submit');
 const ibmLogo = document.getElementById('ibm-logo');
 const vaultImg = document.getElementById('vault-img');
 const vaultResultImg = document.getElementById('vault-result-img');
+const useCameraApp = document.getElementById('use-camera-app')
 
 const storage = localStorage;
 
@@ -35,6 +36,9 @@ let videoInputDeviceId = null;
 
 haveCredentialBtn.onclick = () => {
     startScanner();
+    setTimeout(() => {
+        useCameraApp.style.display = 'block';
+    }, 6000);
 };
 
 function handleCredential(decodedText) {
