@@ -114,13 +114,14 @@ function verifyCredential(sig) {
     stopScanner();
     scannerContainer.style.display = 'none';
 
-    fetch(backend + '/api/verify/' + sig.meta.id, {
+    setTimeout(() => {
+        fetch(backend + '/api/verify/' + sig.meta.id, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
 	    signature: sig.hexData(),
-	})
-    })
+	    })
+        })
         .then(async response => {
             const data = await response.json();
             resultContainer.style.display = '';
@@ -140,9 +141,7 @@ function verifyCredential(sig) {
             vaultResultImg.alt = "Vault Closed";
             resultMessage.innerHTML = `<span style="color:#da1e28;">Verification failed: ${e.message}</span>`;
         });
-
-    // Reset reader state
-    sig = null;
+    }, 2500);
 }
 
 // Manual entry is hidden by default, only shown when IBM logo is clicked
