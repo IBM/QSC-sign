@@ -7,6 +7,9 @@ const scannerContainer = document.getElementById('scanner-container');
 const resultContainer = document.getElementById('result-container');
 const haveCredentialBtn = document.getElementById('have-credential-btn');
 const resultMessage = document.getElementById('result-message');
+const resultName = document.querySelector('#result-type a');
+const resultPK = document.getElementById('result-pk');
+const resultSig = document.getElementById('result-sig');
 const faestMessage = document.getElementById('faest-message');
 const manualEntry = document.getElementById('manual-entry');
 const manualInput = document.getElementById('manual-input');
@@ -108,9 +111,32 @@ function stopScanner() {
     }
 }
 
+async function injectPK(sig, node) {
+    const anchor = node.querySelector('a');
+    anchor.href = `public_keys/${sig.meta.id}_public.key`;
+    const pk = (await (await fetch(anchor.href)).bytes());
+    node.querySelector('.bindata').textContent = pk.reduce(
+	(hex, b) => hex + ' ' + b.toString(16).padStart(2, '0'), '').toUpperCase();
+    node.querySelector('.size').textContent = pk.length;
+}
+
+function injectSig(sig, node) {
+    const binSig = new Blob([sig.binData()], { type: 'application/data' });
+    const anchor = node.querySelector('a');
+    anchor.href = URL.createObjectURL(binSig);
+    anchor.download = `${sig.meta.id}_credential.sig`;
+    node.querySelector('.bindata').textContent = sig.hexData().toUpperCase()
+	.match(/.{1,2}/g).reduce((x,y) => x+" "+y, "");
+    node.querySelector('.size').textContent = binSig.size;
+}
+
 function verifyCredential(sig) {
     showContainer(resultContainer);
     resultMessage.textContent = "Verifying credential...";
+    resultName.textContent = sig.meta.name;
+    resultName.href = '#' + sig.meta.id;
+    injectPK(sig, resultPK);
+    injectSig(sig, resultSig);
     stopScanner();
     scannerContainer.style.display = 'none';
 

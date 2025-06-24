@@ -119,8 +119,23 @@
     </div>
 
     <div class="ibm-container" id="result-container" style="display:none;">
-        <img id="vault-result-img" src="vault_closed.jpg" alt="Vault" style="width:360px; margin-bottom:1.2rem;">
-        <div id="result-message"></div>
+      <img id="vault-result-img" src="vault_closed.jpg" alt="Vault" style="width:360px; margin-bottom:1.2rem;">
+      <div id="result-info">
+	<p id="result-type">
+	  Your credential was signed with <strong><a></a></strong>
+	</p>
+	<p id="result-sig">
+	  <strong>Signature</strong> (<span class="size"></span> bytes)
+	  <a download>↓</a>
+	  <span class="bindata"></span>
+	</p>
+	<p id="result-pk">
+	  <strong>Public key</strong> (<span class="size"></span> bytes)
+	  <a download>↓</a>
+	  <span class="bindata"></span>
+	</p>
+      </div>
+	<div id="result-message"></div>
     </div>
 
     <div class="container">

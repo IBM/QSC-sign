@@ -179,3 +179,9 @@ label {
 }
 
 #print-area { display: none }
+
+.bindata {
+    display: block;
+    max-height: 4.5em;
+    overflow: auto;
+}

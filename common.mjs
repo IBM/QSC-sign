@@ -45,6 +45,10 @@ class Signature {
 	return result;
     }
     
+    static b642bin(b64) {
+	return Uint8Array.from(atob(b64), (b) => b.charCodeAt(0));
+    }
+    
     constructor(algorithm, dataHex, origin) {
 	if (!Signature.algorithmMeta.has(algorithm))
 	    throw `Unkwnown algorithm ${algorithm}`;
@@ -76,6 +80,11 @@ class Signature {
 
     hexData() {
 	return Signature.b642hex(
+	    this.data.reduce((acc, chunk) => acc + chunk, ''));
+    }
+
+    binData() {
+	return Signature.b642bin(
 	    this.data.reduce((acc, chunk) => acc + chunk, ''));
     }
 
