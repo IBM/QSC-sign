@@ -11,6 +11,7 @@ function setQR(node, uri, spinner, active, error, altText='') {
 const waitQR = (node) => setQR(node, '', 1, 1, 0);
 const placeQR = (node, uri) => setQR(node, uri, 0, 1, 0);
 const errQR = (node) => setQR(node, '', 0, 1, 1, 'Error');
+const blankQR = (node) => setQR(node, '', 0, 0, 0, 'Error');
 
 // API sign call
 async function handleSignature(node, msg) {
@@ -50,6 +51,9 @@ addEventListener('DOMContentLoaded', () => {
             qrs.forEach((qr) =>  handleSignature(qr, msg));
 
         e.preventDefault();
+    });
+    document.querySelector('#message').addEventListener('input', (e) => {
+	document.querySelectorAll('.qr').forEach((qr) => blankQR(qr));
     });
 
     // QR code printing
