@@ -6,7 +6,7 @@ class Signature {
     static MAYO = 2;
     static UOV = 3;
     static FAEST = 4;
-    static maxURLLength = 5400;
+    static maxURLLength = 2200;
     static algorithmMeta = new Map([
 	[Signature.SQISIGN , {
 	    id : 'sqisign',
@@ -29,13 +29,28 @@ class Signature {
 	    chunks : 2,
 	}],
     ]);
+
+    static hex2b64(hex) {
+	const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+	return btoa(String.fromCharCode(...bytes));
+    }
+    
+    static b642hex(b64) {
+	const raw = atob(b64);
+	let result = '';
+	for (let i = 0; i < raw.length; i++) {
+            const hex = raw.charCodeAt(i).toString(16);
+            result += (hex.length === 2 ? hex : '0' + hex);
+	}
+	return result;
+    }
     
     constructor(algorithm, dataHex, origin) {
 	if (!Signature.algorithmMeta.has(algorithm))
 	    throw `Unkwnown algorithm ${algorithm}`;
 	this.algorithm = algorithm;
 	this.origin = origin;
-	const dataDec = dataHex ? BigInt('0x' + dataHex).toString(10) : '';
+	const dataDec = dataHex ? Signature.hex2b64(dataHex) : '';
 	this.data = [];
 
 	if (dataDec.length > 0){
@@ -60,7 +75,8 @@ class Signature {
     }
 
     hexData() {
-	return BigInt(this.data.reduce((acc, chunk) => acc + chunk, '')).toString(16);
+	return Signature.b642hex(
+	    this.data.reduce((acc, chunk) => acc + chunk, ''));
     }
 
     toString() {
@@ -90,9 +106,9 @@ class Signature {
 	if (isNaN(chunk) || chunk >= this.meta.chunks)
 	    throw `Invalid chunk index ${chunk}`;
 	const data = u.search.substring(3);
-	if (data.match(/^[0-9]+$/) === null)
-	    throw `Invalid data format: must be [0-9]+`;
-	this.data[chunk] = BigInt(data);
+	if (data.match(/^[A-Za-z0-9+/]+=*$/) === null)
+	    throw `Invalid data format: must be base64`;
+	this.data[chunk] = data;
     }
 }
 
