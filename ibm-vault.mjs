@@ -166,9 +166,7 @@ manualInput.addEventListener('keydown', function(e) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-   // Check for ?data=... in the URL
-  const URL = window.location.href;
-  if (URL.includes("?")) {
-    handleCredential(URL);
+  if (location.search) {
+      handleCredential(location.href);
   }
 }, false);
